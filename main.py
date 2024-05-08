@@ -8,5 +8,9 @@ if __name__ == "__main__":
 
     "if you dont know the unit root, set it to 0"
     # unit_root:int = 0
+
+    "False for FFT, True for inverse FFT"
+    inverse:bool = False
+    # inverse:bool = True
     
-    print(FFT(FFT_vector, Z, unit_root))
+    print(FFT(FFT_vector, Z, unit_root, inverse=inverse))
