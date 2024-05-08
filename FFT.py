@@ -2,7 +2,7 @@ import numpy as np
 from GCD import gcd
 
 
-def FFT(FFT_vector:list, Z:int, unit_root:int, level:int=1, root:list=[], inverse:bool=False):
+def FFT(FFT_vector:list, Z:int, unit_root:int=0, level:int=1, root:list=[], inverse:bool=False):
     if len(FFT_vector) == 1:
         return [int(FFT_vector[0])%Z]
     
@@ -20,7 +20,7 @@ def FFT(FFT_vector:list, Z:int, unit_root:int, level:int=1, root:list=[], invers
                     if temp_unit[-1] == 1:
                         unit_root = i
                         break
-            if unit_root == 0:
+            if not unit_root:
                 return("No unit root found")
             else:
                 print(f"Unit root: {unit_root}")
