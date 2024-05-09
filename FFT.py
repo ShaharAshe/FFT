@@ -17,7 +17,7 @@ def FFT(FFT_vector:list, Z:int, unit_root:int=0, level:int=1, root:list=[], inve
                     temp_unit:list = [1]
                     for j in range(len(FFT_vector)):
                         temp_unit += [(temp_unit[-1]*i*dup)%Z]
-                    if temp_unit[-1] == 1:
+                    if temp_unit[-1] == 1 and len(set(temp_unit)) == len(FFT_vector):
                         unit_root = i
                         break
             if not unit_root:
