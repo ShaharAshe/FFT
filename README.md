@@ -25,6 +25,11 @@ result = FFT(FFT_vector, Z, unit_root, inverse=inverse)
 print("FFT Result:", result)
 ```
 
+**`unit_root = 0` if you don't know the unit root**
+
+**`inverse = False` for FFT, `inverse = True` for inverse FFT**
+
+
 ## Notes ##
 - The FFT algorithm in this project uses modular arithmetic. Make sure that `Z` is a prime number for proper behavior.
 - If you don't provide a unit root, the code will attempt to find one. If it can't find a unit root, it will return an error message.

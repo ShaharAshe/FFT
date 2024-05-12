@@ -13,4 +13,4 @@ if __name__ == "__main__":
     inverse:bool = False
     # inverse:bool = True
     
-    print(FFT(FFT_vector, Z, unit_root, inverse=inverse))
+    print(FFT(FFT_vector, Z, unit_root, inverse))
