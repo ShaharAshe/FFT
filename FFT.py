@@ -1,5 +1,4 @@
 import numpy as np
-# from GCD import gcd
 
 def FFT(FFT_vector:list, Z:int, unit_root:int=0, inverse:bool=False):
     """
