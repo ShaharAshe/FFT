@@ -1,6 +1,6 @@
 import numpy as np
 
-def FFT(FFT_vector:list, Z:int, unit_root:int=0, inverse:bool=False):
+def FFT(FFT_vector:list, Z:int, unit_root:int=0, inverse:bool=False) -> list:
     """
     Performs the Fast Fourier Transform (FFT) or its inverse on a given vector modulo Z.
 
@@ -13,7 +13,10 @@ def FFT(FFT_vector:list, Z:int, unit_root:int=0, inverse:bool=False):
     Returns:
         list: The FFT result or its inverse.
     """
-    def gcd(num_1:int, num_2:int)->int:
+    dup = -1 if inverse else 1
+
+    # ---------------------------------------------------------
+    def gcd(num_1:int, num_2:int) -> int:
         """
         Computes the greatest common divisor (GCD) of two numbers using Euclid's algorithm.
 
@@ -28,17 +31,17 @@ def FFT(FFT_vector:list, Z:int, unit_root:int=0, inverse:bool=False):
             return 0
         return num_1 if num_2 == 0 else gcd(num_2, num_1%num_2)
     
-    def FFT(FFT_vector:list, Z:int, unit_root:int, level:int=1, root:list=[], dup:int=1):
+    # ---------------------------------------------------------
+    def FFT(FFT_vector:list, Z:int, unit_root:int, level:int=1, root:list=[]):
         """
         Recursive function to perform FFT.
 
         Args:
-            FFT_vector (list): The input vector for FFT.
+            vector (list): The input vector for FFT.
             Z (int): Modulus for arithmetic operations.
             unit_root (int): The primitive root of unity modulo Z.
             level (int, optional): Current recursion level. Defaults to 1.
             root (list, optional): Current primitive root of unity values. Defaults to [].
-            dup (int, optional): Duplication factor for inverse FFT. Defaults to 1.
 
         Returns:
             list: The FFT result or its inverse.
@@ -50,7 +53,9 @@ def FFT(FFT_vector:list, Z:int, unit_root:int=0, inverse:bool=False):
         if level == 1:
             temp_unit:list = [1]
             for j in range(len(FFT_vector)-1):
-                temp_unit += [(temp_unit[-1]*unit_root*dup)%Z]
+                temp_unit += [(temp_unit[-1]*unit_root)%Z]
+            if dup == -1:
+                temp_unit = [temp_unit[len(temp_unit)-i] if i != 0 else temp_unit[i] for i in range(len(temp_unit))]
             final_result.append(temp_unit[:])
             final_result.append([int(c) for c in FFT_vector])
         else:
@@ -60,10 +65,7 @@ def FFT(FFT_vector:list, Z:int, unit_root:int=0, inverse:bool=False):
         temp_2:list = FFT(final_result[1][1::2], Z, unit_root, level*2, final_result[0][::2])
 
         return [((temp_1[i%(len(FFT_vector)//2)] + ((temp_2[i%(len(FFT_vector)//2)] * final_result[0][i])))%Z) for i in range(len(FFT_vector))]
-    
-    dup:int = 1
-    if inverse:
-        dup = -1
+    # ---------------------------------------------------------
 
     if not unit_root:
         for i in range(2, Z):
@@ -78,8 +80,9 @@ def FFT(FFT_vector:list, Z:int, unit_root:int=0, inverse:bool=False):
             return("No unit root found")
         else:
             print(f"Unit root: {unit_root}")
-    
-    return FFT(FFT_vector=FFT_vector, Z=Z, unit_root=unit_root, dup=dup)
+            
+    result:list = FFT(FFT_vector=FFT_vector, Z=Z, unit_root=unit_root)
+    return result if not inverse else [(c*(-2))%Z for c in result]
     
 
 if __name__ == "__main__":
